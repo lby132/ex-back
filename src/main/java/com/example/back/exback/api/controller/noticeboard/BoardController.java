@@ -7,6 +7,7 @@ import com.example.back.exback.api.service.noticeboard.BoardService;
 import com.example.back.exback.domain.noticeboard.board.Board;
 import com.example.back.exback.domain.noticeboard.board.BoardEditor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class BoardController {
         return ApiResponse.ok(boardService.getBoardAll());
     }
 
+    @GetMapping("/v1/{boardId}")
+    public ApiResponse<BoardResponse> getBoardOne(@PathVariable("boardId") Long boardId) {
+        return ApiResponse.ok(boardService.getBoardOne(boardId));
+    }
+
     @PostMapping("/v1/registration/{memberId}")
     public void registrationBoard(@PathVariable("memberId") Long memberId, @RequestBody BoardRequest request) {
         boardService.registrationBoard(memberId, request);
@@ -34,7 +40,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/v1/delete/{boardId}")
-    public void deleteBoard(@PathVariable("boardId") Long boardId, @RequestBody BoardEditor editor) {
-        boardService.edit(boardId, editor);
+    public void deleteBoard(@PathVariable("boardId") Long boardId) {
+        boardService.delete(boardId);
     }
 }

@@ -2,6 +2,7 @@ package com.example.back.exback.api.service.noticeboard;
 
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
+import com.example.back.exback.api.exception.PostNotFound;
 import com.example.back.exback.domain.member.Member;
 import com.example.back.exback.domain.member.MemberRepository;
 import com.example.back.exback.domain.noticeboard.BoardCommon;
@@ -25,7 +26,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public Long registrationBoard(Long id, BoardRequest request) {
-        Member findMember = memberRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Member findMember = memberRepository.findById(id).orElseThrow(PostNotFound::new);
         BoardCommon boardCommon = new BoardCommon(request.getWriter(), request.getContent());
         Board board = Board.registBoard(findMember, request.getTitle(), boardCommon);
 
@@ -34,8 +35,16 @@ public class BoardService {
         return board.getId();
     }
 
+    @Transactional(readOnly = true)
+    public BoardResponse getBoardOne(Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(PostNotFound::new);
+
+        return BoardResponse.of(board);
+    }
+
     public void edit(Long id, BoardEditor editor) {
-        Board board = boardRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Board board = boardRepository.findById(id).orElseThrow(PostNotFound::new);
         board.updateBoard(editor);
     }
 
@@ -47,7 +56,7 @@ public class BoardService {
     }
 
     public void delete(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Board board = boardRepository.findById(id).orElseThrow(PostNotFound::new);
         board.deleteBoard();
     }
 }

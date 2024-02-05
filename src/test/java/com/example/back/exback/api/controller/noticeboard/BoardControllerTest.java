@@ -11,10 +11,12 @@ import com.example.back.exback.domain.noticeboard.board.BoardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,10 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -97,7 +99,7 @@ class BoardControllerTest {
 
 //        Mockito.when(boardService.getBoardAll()).thenReturn(result);
 
-        // when & then
+        // expected
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/board/v1/list")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,6 +111,17 @@ class BoardControllerTest {
                 .andExpect(jsonPath("$.message").value("OK"))
                 .andExpect(jsonPath("$.data").isArray());
 
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 게시글 조희")
+    void notFoundBoard() throws Exception {
+        // expected
+        mockMvc.perform(
+                        get("/board/v1/{boardId}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
 }

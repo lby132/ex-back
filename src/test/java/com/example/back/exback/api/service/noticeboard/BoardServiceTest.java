@@ -2,6 +2,7 @@ package com.example.back.exback.api.service.noticeboard;
 
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
+import com.example.back.exback.api.exception.PostNotFound;
 import com.example.back.exback.domain.address.Address;
 import com.example.back.exback.domain.member.Member;
 import com.example.back.exback.domain.noticeboard.BoardCommon;
@@ -17,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -75,6 +78,17 @@ class BoardServiceTest {
         assertThat(boardList.size()).isEqualTo(1);
         assertThat(boardList.get(0).getTitle()).isEqualTo("제목1");
         assertThat(boardList.get(0).getContent()).isEqualTo("내용");
+    }
+
+    @Test
+    void boardSaveException() {
+        // given
+        BoardRequest request = new BoardRequest("제목1", "내용", "memberA");
+
+        // expected
+        assertThatThrownBy(() -> boardService.registrationBoard(1L, request))
+                .isInstanceOf(PostNotFound.class);
+
     }
 
     @Test
