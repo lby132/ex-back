@@ -26,13 +26,12 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiResponse> notFoundException(ApiException e) {
-        ApiResponse body = ApiResponse.of(
-                HttpStatus.NOT_FOUND,
-                e.getMessage(),
-                null);
+    public ResponseEntity<ApiResponse> apiException(ApiException e) {
+        ApiResponse body = ApiResponse.apiErrorResponse(
+                e.getStatus(),
+                e.getMessage());
 
-        return ResponseEntity.status(e.getStatusCode()).body(body);
+        return ResponseEntity.status(e.getStatus()).body(body);
     }
 
 }

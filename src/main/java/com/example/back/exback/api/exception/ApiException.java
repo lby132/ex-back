@@ -1,5 +1,7 @@
 package com.example.back.exback.api.exception;
 
+import org.springframework.http.HttpStatus;
+
 public abstract class ApiException extends RuntimeException {
 
     public ApiException(String message) {
@@ -10,5 +12,7 @@ public abstract class ApiException extends RuntimeException {
         super(message, cause);
     }
 
-    public abstract int getStatusCode();
+//    public abstract int getStatusCode();
+
+    public abstract HttpStatus getStatus();
 }

@@ -1,6 +1,7 @@
 package com.example.back.exback.api.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class PostNotFound extends ApiException {
@@ -12,7 +13,7 @@ public class PostNotFound extends ApiException {
     }
 
     @Override
-    public int getStatusCode() {
-        return 404;
+    public HttpStatus getStatus() {
+        return HttpStatus.NOT_FOUND;
     }
 }

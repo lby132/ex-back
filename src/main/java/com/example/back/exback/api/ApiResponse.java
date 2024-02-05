@@ -18,6 +18,12 @@ public class ApiResponse <T> {
         this.data = data;
     }
 
+    public ApiResponse(HttpStatus status, String message) {
+        this.code = status.value();
+        this.status = status;
+        this.message = message;
+    }
+
     public static <T> ApiResponse<T> of(HttpStatus httpStatus, String message, T data) {
         return new ApiResponse<>(httpStatus, message, data);
     }
@@ -28,5 +34,9 @@ public class ApiResponse <T> {
 
     public static <T> ApiResponse<T> ok(T data) {
         return of(HttpStatus.OK, data);
+    }
+
+    public static ApiResponse apiErrorResponse(HttpStatus httpStatus, String message) {
+        return new ApiResponse(httpStatus, message);
     }
 }
