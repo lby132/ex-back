@@ -1,6 +1,6 @@
 package com.example.back.exback.api.exception;
 
-public class ApiException extends RuntimeException {
+public abstract class ApiException extends RuntimeException {
 
     public ApiException(String message) {
         super(message);
@@ -10,4 +10,5 @@ public class ApiException extends RuntimeException {
         super(message, cause);
     }
 
+    public abstract int getStatusCode();
 }

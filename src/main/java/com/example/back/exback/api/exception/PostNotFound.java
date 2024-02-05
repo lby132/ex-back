@@ -10,4 +10,9 @@ public class PostNotFound extends ApiException {
     public PostNotFound() {
         super(MESSAGE);
     }
+
+    @Override
+    public int getStatusCode() {
+        return 404;
+    }
 }

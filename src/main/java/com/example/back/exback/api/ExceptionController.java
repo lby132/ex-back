@@ -1,8 +1,10 @@
 package com.example.back.exback.api;
 
 import com.example.back.exback.api.ApiResponse;
+import com.example.back.exback.api.exception.ApiException;
 import com.example.back.exback.api.exception.PostNotFound;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,14 +25,14 @@ public class ExceptionController {
         );
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(PostNotFound.class)
-    public ApiResponse notFoundException(PostNotFound e) {
-        return ApiResponse.of(
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiResponse> notFoundException(ApiException e) {
+        ApiResponse body = ApiResponse.of(
                 HttpStatus.NOT_FOUND,
                 e.getMessage(),
-                null
-        );
+                null);
+
+        return ResponseEntity.status(e.getStatusCode()).body(body);
     }
 
 }
