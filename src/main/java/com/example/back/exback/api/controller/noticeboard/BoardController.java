@@ -4,10 +4,9 @@ import com.example.back.exback.api.ApiResponse;
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
 import com.example.back.exback.api.service.noticeboard.BoardService;
-import com.example.back.exback.domain.noticeboard.board.Board;
 import com.example.back.exback.domain.noticeboard.board.BoardEditor;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class BoardController {
     }
 
     @PostMapping("/v1/registration/{memberId}")
-    public void registrationBoard(@PathVariable("memberId") Long memberId, @RequestBody BoardRequest request) {
+    public void registrationBoard(@PathVariable("memberId") Long memberId, @RequestBody @Valid BoardRequest request) {
         boardService.registrationBoard(memberId, request);
     }
 

@@ -56,6 +56,7 @@ class BoardServiceTest {
 
         em.flush();
         em.clear();
+
         // when
         List<BoardResponse> boardList = boardService.getBoardAll();
 
@@ -67,13 +68,12 @@ class BoardServiceTest {
 
     @Test
     void boardSave() {
-        // given
+        // given, when
         Long saveBoardId = createBoard();
 
-        // when
+        // then
         List<BoardResponse> boardList = boardService.getBoardAll();
 
-        // then
         assertThat(saveBoardId).isNotNull();
         assertThat(boardList.size()).isEqualTo(1);
         assertThat(boardList.get(0).getTitle()).isEqualTo("제목1");
