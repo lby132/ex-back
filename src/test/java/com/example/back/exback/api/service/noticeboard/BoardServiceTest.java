@@ -1,5 +1,6 @@
 package com.example.back.exback.api.service.noticeboard;
 
+import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
 import com.example.back.exback.api.exception.PostNotFound;
@@ -39,12 +40,32 @@ class BoardServiceTest {
     @Test
     void boardList() {
         // given
-        Address address = new Address("06222", "서울시", "27-5번지");
-        Member newMember = Member.createMember(address, "memberA", "1234", "010-9990-1123", 'M');
+        JoinRequest request = JoinRequest.builder()
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("010-9990-1123")
+                .gender('M')
+                .build();
+
+        Member newMember = Member.createMember(request);
         BoardCommon boardCommon = new BoardCommon("memberA", "게시판테스트");
 
-        Address address2 = new Address("06222", "서울시", "27-5번지");
-        Member newMember2 = Member.createMember(address2, "memberB", "1234", "010-9990-1123", 'M');
+
+        JoinRequest request2 = JoinRequest.builder()
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .userId("memberB")
+                .userPw("1234")
+                .age(24)
+                .phone("010-9990-1123")
+                .gender('M')
+                .build();
+        Member newMember2 = Member.createMember(request2);
         BoardCommon boardCommon2 = new BoardCommon("memberB", "게시판테스트");
         em.persist(newMember);
         em.persist(newMember2);
@@ -124,12 +145,23 @@ class BoardServiceTest {
 
 
     private Long createBoard() {
-        Address address = new Address("06222", "서울시", "27-5번지");
-        Member newMember = Member.createMember(address, "memberA", "1234", "010-9990-1123", 'M');
+        JoinRequest request = JoinRequest.builder()
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("010-9990-1123")
+                .gender('M')
+                .build();
+
+        Member newMember = Member.createMember(request);
         em.persist(newMember);
 
-        BoardRequest request = new BoardRequest("제목1", "내용", "memberA");
+        BoardRequest boardRequest = new BoardRequest("제목1", "내용", "memberA");
 
-        return boardService.registrationBoard(newMember.getId(), request);
+        return boardService.registrationBoard(newMember.getId(), boardRequest);
     }
+
 }

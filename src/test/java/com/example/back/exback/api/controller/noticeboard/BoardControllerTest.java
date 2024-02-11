@@ -1,5 +1,6 @@
 package com.example.back.exback.api.controller.noticeboard;
 
+import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
 import com.example.back.exback.api.service.noticeboard.BoardService;
@@ -169,26 +170,38 @@ class BoardControllerTest {
     void titleIsRequired() throws Exception {
         // given
         final Member member = createMember();
-        final BoardCommon boardCommon = new BoardCommon("memberA", "내용");
-        Board board = Board.registBoard(member, null, boardCommon);
+
+        final BoardRequest boardRequest = BoardRequest.builder()
+                .content("내용")
+                .writer(member.getUserId())
+                .build();
 
         // when
         mockMvc.perform(
-                        post("/board/v1/registration/{memberId}", board.getId())
+                        post("/board/v1/registration/{memberId}", member.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(board)))
+                                .content(objectMapper.writeValueAsString(boardRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.data").isEmpty());
 
-        // then
     }
 
     private Member createMember() {
-        Address address = new Address("06222", "서울시", "27-5번지");
-        Member newMember = Member.createMember(address, "memberA", "1234", "010-9990-1123", 'M');
+        JoinRequest request = JoinRequest.builder()
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("010-9990-1123")
+                .gender('M')
+                .build();
+
+        Member newMember = Member.createMember(request);
         em.persist(newMember);
         return newMember;
     }
