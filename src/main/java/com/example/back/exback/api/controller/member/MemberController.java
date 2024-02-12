@@ -1,5 +1,6 @@
 package com.example.back.exback.api.controller.member;
 
+import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/v1")
-    public void joinMember() {
-
+    public void joinMember(JoinRequest request) {
+        memberService.join(request);
     }
 }
