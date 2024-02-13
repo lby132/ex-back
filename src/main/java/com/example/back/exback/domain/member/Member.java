@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
 
     private String userId;
     private String userPw;
-    private int age;
+    private Integer age;
     private String phone;
     private char gender;
     private LocalDateTime regDate;
@@ -39,7 +39,7 @@ public class Member extends BaseEntity {
     private char singOut = 'N';
 
     @Builder
-    public Member(Address address, String userId, String userPw, int age, String phone, char gender, LocalDateTime regDate) {
+    public Member(Address address, String userId, String userPw, Integer age, String phone, char gender, LocalDateTime regDate) {
         this.address = address;
         this.userId = userId;
         this.userPw = userPw;

@@ -1,6 +1,7 @@
 package com.example.back.exback.api.controller.member.requset;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,9 @@ public class JoinRequest {
     @NotEmpty(message = "비밀번호 입력은 필수 입니다.")
     private String userPw;
 
-    @NotEmpty(message = "나이 입력은 필수 입니다.")
-    private int age;
+    //String 타입은 @NotEmpty Integer 타입은 @NotNull을 사용해야함..
+    @NotNull(message = "나이 입력은 필수 입니다.")
+    private Integer age;
 
     private String zipcode;
     private String address;
@@ -25,7 +27,7 @@ public class JoinRequest {
     private char gender;
 
     @Builder
-    public JoinRequest(String userId, String userPw, int age, String zipcode, String address, String addressDetail, String phone, char gender) {
+    public JoinRequest(String userId, String userPw, Integer age, String zipcode, String address, String addressDetail, String phone, char gender) {
         this.userId = userId;
         this.userPw = userPw;
         this.age = age;

@@ -4,14 +4,12 @@ import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.controller.noticeboard.request.BoardRequest;
 import com.example.back.exback.api.controller.noticeboard.response.BoardResponse;
 import com.example.back.exback.api.service.noticeboard.BoardService;
-import com.example.back.exback.domain.address.Address;
 import com.example.back.exback.domain.member.Member;
 import com.example.back.exback.domain.member.MemberRepository;
 import com.example.back.exback.domain.noticeboard.BoardCommon;
 import com.example.back.exback.domain.noticeboard.board.Board;
 import com.example.back.exback.domain.noticeboard.board.BoardEditor;
 import com.example.back.exback.domain.noticeboard.board.BoardRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -203,6 +201,7 @@ class BoardControllerTest {
 
         Member newMember = Member.createMember(request);
         em.persist(newMember);
+
         return newMember;
     }
 }

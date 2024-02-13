@@ -28,7 +28,7 @@ public class MemberController {
         return ApiResponse.ok(memberList);
     }
 
-    @PostMapping("/v1")
+    @PostMapping("/v1/join")
     public void joinMember(@RequestBody @Valid JoinRequest request) {
         memberService.join(request);
     }
