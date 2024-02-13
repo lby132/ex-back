@@ -4,6 +4,7 @@ import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.domain.BaseEntity;
 import com.example.back.exback.domain.address.Address;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDateTime;

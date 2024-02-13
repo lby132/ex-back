@@ -1,5 +1,6 @@
 package com.example.back.exback.api.controller.noticeboard.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BoardRequest {
 
-    @NotEmpty(message = "제목 입력은 필수입니다.")
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
+
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
+
     private String writer;
 
 }

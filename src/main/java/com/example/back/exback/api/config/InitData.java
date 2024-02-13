@@ -41,7 +41,7 @@ public class InitData {
                     .gender('M')
                     .build();
             Member newMember = Member.createMember(request);
-
+            
             em.persist(newMember);
 
 
