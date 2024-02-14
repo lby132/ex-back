@@ -3,6 +3,7 @@ package com.example.back.exback.api.service.member;
 import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.exception.InvalidRequest;
 import com.example.back.exback.api.exception.PostNotFound;
+import com.example.back.exback.domain.address.Address;
 import com.example.back.exback.domain.member.Member;
 import com.example.back.exback.domain.member.MemberRepository;
 import org.assertj.core.api.AbstractThrowableAssert;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.tuple;
 
 @SpringBootTest
 @Transactional
@@ -74,5 +78,66 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.join(request))
                 .isInstanceOf(InvalidRequest.class).hasMessage("이미 존재하는 아이디입니다.");
     }
+
+    @Test
+    void findMembers() {
+        // given
+        Member memberA = Member.builder()
+                .address(new Address("0444", "서울시", "27-3번지"))
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("01010102320")
+                .gender('M')
+                .regDate(LocalDateTime.now())
+                .build();
+
+        Member memberB = Member.builder()
+                .address(new Address("0444", "서울시", "27-1번지"))
+                .userId("memberB")
+                .userPw("1234")
+                .age(24)
+                .phone("01010102320")
+                .gender('W')
+                .regDate(LocalDateTime.now())
+                .build();
+
+        memberRepository.saveAll(List.of(memberA, memberB));
+
+        // when
+        List<Member> member = memberService.findMembers();
+
+        // then
+        assertThat(member).hasSize(2)
+                .extracting("userId", "age", "gender")
+                .containsExactlyInAnyOrder(
+                        tuple("memberA", 24, 'M'),
+                        tuple("memberB", 24, 'W')
+                );
+    }
+
+    @Test
+    @DisplayName("회원 한명만 조회한다.")
+    void findOneMember() {
+        // given
+        Member member = Member.builder()
+                .address(new Address("0444", "서울시", "27-3번지"))
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("01010102320")
+                .gender('M')
+                .regDate(LocalDateTime.now())
+                .build();
+
+        memberRepository.save(member);
+
+        // when
+        Member findOne = memberService.findOneMember(member.getUserId());
+
+        // then
+
+    }
+
 
 }

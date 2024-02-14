@@ -4,6 +4,7 @@ import com.example.back.exback.api.ApiResponse;
 import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.controller.member.response.MemberResponse;
 import com.example.back.exback.api.service.member.MemberService;
+import com.example.back.exback.domain.member.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +23,16 @@ public class MemberController {
 
     @GetMapping("/v1/members")
     public ApiResponse<List<MemberResponse>> findMembers() {
-        final List<MemberResponse> memberList = memberService.findMembers().stream()
+        List<MemberResponse> memberList = memberService.findMembers().stream()
                 .map(m -> new MemberResponse(m.getUserId()))
                 .collect(Collectors.toList());
         return ApiResponse.ok(memberList);
+    }
+
+    @GetMapping("v1/member/{userId}")
+    public ApiResponse<MemberResponse> findOneMember(@PathVariable("userId") String userId) {
+        Member oneMember = memberService.findOneMember(userId);
+        return ApiResponse.ok(new MemberResponse(oneMember.getUserId()));
     }
 
     @PostMapping("/v1/join")

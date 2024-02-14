@@ -2,6 +2,7 @@ package com.example.back.exback.api.service.member;
 
 import com.example.back.exback.api.controller.member.requset.JoinRequest;
 import com.example.back.exback.api.exception.InvalidRequest;
+import com.example.back.exback.api.exception.PostNotFound;
 import com.example.back.exback.domain.member.Member;
 import com.example.back.exback.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class MemberService {
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
+    }
+
+    public Member findOneMember(String userId) {
+        return memberRepository.findOptionalByUserId(userId)
+                .orElseThrow(PostNotFound::new);
     }
 }
