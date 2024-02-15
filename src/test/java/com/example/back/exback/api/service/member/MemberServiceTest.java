@@ -5,8 +5,8 @@ import com.example.back.exback.api.exception.InvalidRequest;
 import com.example.back.exback.api.exception.PostNotFound;
 import com.example.back.exback.domain.address.Address;
 import com.example.back.exback.domain.member.Member;
+import com.example.back.exback.domain.member.MemberEdit;
 import com.example.back.exback.domain.member.MemberRepository;
-import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,8 +136,43 @@ class MemberServiceTest {
         Member findOne = memberService.findOneMember(member.getUserId());
 
         // then
-
+        assertThat(findOne)
+                .extracting("userId", "age", "gender")
+                .containsExactly("memberA", 24, 'M');
     }
 
+    @Test
+    void memberEdit() {
+        // given
+        Member member = Member.builder()
+                .address(new Address("0444", "서울시", "27-3번지"))
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("01010102320")
+                .gender('M')
+                .regDate(LocalDateTime.now())
+                .build();
+
+        memberRepository.save(member);
+
+        // when
+        MemberEdit editMember = MemberEdit.builder()
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .userId("memberB")
+                .userPw("1234")
+                .age(24)
+                .phone("01022223333")
+                .gender('M')
+                .build();
+
+        memberService.edit(member.getId(), editMember);
+
+        // then
+        assertThat(member.getUserId()).isEqualTo("memberB");
+        assertThat(member.getPhone()).isEqualTo("01022223333");
+    }
 
 }

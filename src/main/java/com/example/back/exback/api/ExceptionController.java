@@ -18,11 +18,9 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ApiResponse bindException(BindException e) {
-        return ApiResponse.of(
+        return ApiResponse.apiErrorResponse(
                 HttpStatus.BAD_REQUEST,
-                e.getBindingResult().getAllErrors().get(0).getDefaultMessage(),
-                null
-        );
+                e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     @ExceptionHandler(ApiException.class)

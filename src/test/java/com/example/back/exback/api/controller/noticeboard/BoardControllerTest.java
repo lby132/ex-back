@@ -78,7 +78,7 @@ class BoardControllerTest {
 
         // when
         mockMvc.perform(
-                        post("/board/v1/registration/{memberId}", newMember.getId())
+                        post("/api/v1/board/registration/{memberId}", newMember.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json)
                 )
@@ -103,7 +103,7 @@ class BoardControllerTest {
 
         // expected
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/board/v1/list")
+                        MockMvcRequestBuilders.get("/api/v1/board/list")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -120,7 +120,7 @@ class BoardControllerTest {
     void notFoundBoard() throws Exception {
         // expected
         mockMvc.perform(
-                        get("/board/v1/{boardId}", 1L)
+                        get("/api/v1/board/{boardId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andDo(print());
@@ -140,7 +140,7 @@ class BoardControllerTest {
 
         // expected
         mockMvc.perform(
-                        post("/board/v1/edit/{boardId}", board.getId())
+                        post("/api/v1/board/edit/{boardId}", board.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isOk())
@@ -157,7 +157,7 @@ class BoardControllerTest {
 
         // expected
         mockMvc.perform(
-                        get("/board/v1/{boardId}", board.getId())
+                        get("/api/v1/board/{boardId}", board.getId())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -176,7 +176,7 @@ class BoardControllerTest {
 
         // when
         mockMvc.perform(
-                        post("/board/v1/registration/{memberId}", member.getId())
+                        post("/api/v1/board/registration/{memberId}", member.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(boardRequest)))
                 .andDo(print())
@@ -204,4 +204,5 @@ class BoardControllerTest {
 
         return newMember;
     }
+
 }

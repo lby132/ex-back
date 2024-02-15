@@ -64,11 +64,36 @@ class MemberControllerTest {
 
         // expected
         mockMvc.perform(
-                        post("/member/v1/join")
+                        post("/api/v1/members/join")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    void userIdIsRequired() throws Exception {
+        // given
+        JoinRequest request = JoinRequest.builder()
+                .userPw("1234")
+                .age(24)
+                .zipcode("06222")
+                .address("서울시")
+                .addressDetail("27-5번지")
+                .phone("010-9990-1123")
+                .gender('M')
+                .build();
+
+        // expected
+        mockMvc.perform(
+                        post("/api/v1/members/join")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").value("아이디 입력은 필수 입니다."))
+                .andDo(print());
+
     }
 
     @Test
@@ -88,7 +113,7 @@ class MemberControllerTest {
 
         // expected
         mockMvc.perform(
-                        get("/member/v1/members")
+                        get("/api/v1/members")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -98,4 +123,32 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.data").isNotEmpty());
 
     }
+
+    @Test
+    void findOneMember() throws Exception {
+        // given
+        final Member member = Member.builder()
+                .address(new Address("0444", "서울시", "27-3번지"))
+                .userId("memberA")
+                .userPw("1234")
+                .age(24)
+                .phone("01010102320")
+                .gender('M')
+                .regDate(LocalDateTime.now())
+                .build();
+
+        Member savedMember = memberRepository.save(member);
+
+        // expected
+        mockMvc.perform(
+                get("/api/v1/members/{userId}", savedMember.getUserId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.message").value("OK"))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
 }

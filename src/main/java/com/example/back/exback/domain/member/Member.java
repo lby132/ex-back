@@ -61,4 +61,15 @@ public class Member extends BaseEntity {
                 .regDate(LocalDateTime.now())
                 .build();
     }
+
+    public void editMember(MemberEdit edit) {
+        final Address address = new Address(edit.getZipcode(), edit.getAddress(), edit.getAddressDetail());
+        this.address = address;
+        this.userId = edit.getUserId();
+        this.userPw = edit.getUserPw();
+        this.age = edit.getAge();
+        this.phone = edit.getPhone();
+        this.gender = edit.getGender();
+        this.regDate = LocalDateTime.now();
+    }
 }

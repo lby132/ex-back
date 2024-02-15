@@ -24,8 +24,8 @@ class MemberTest {
         assertEquals(newMember.getAddress().getZipcode(), "06222");
     }
 
-    @DisplayName("초기 가입자는 회원탈퇴(singOut), 정지여부(banned)가 N 이어야 한다.")
     @Test
+    @DisplayName("초기 가입자는 회원탈퇴(singOut), 정지여부(banned)가 N 이어야 한다.")
     void memberStatus() {
         // given
         JoinRequest request = joinRequest();
