@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,6 +56,11 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
         this.totalPrice = calculatorTotalPrice(items);
         this.orderDate = orderDate;
+    }
+
+    public void relationshipSetOrderItems(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        orderItem.relationshipSetOrder(this);
     }
 
     private int calculatorTotalPrice(List<Item> items) {

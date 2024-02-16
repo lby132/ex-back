@@ -5,6 +5,7 @@ import com.example.back.exback.domain.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -17,7 +18,7 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "order_detail_id")
+    @Column(name = "order_item_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -35,5 +36,9 @@ public class OrderItem {
     public OrderItem(Order order, Item item) {
         this.order = order;
         this.item = item;
+    }
+
+    public void relationshipSetOrder(Order order) {
+        this.order = order;
     }
 }
