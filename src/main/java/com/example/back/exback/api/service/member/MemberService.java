@@ -15,12 +15,13 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Long join(JoinRequest request) {
         validateDuplicateId(request);
         Member saveMember = memberRepository.save(Member.createMember(request));
@@ -43,8 +44,8 @@ public class MemberService {
                 .orElseThrow(PostNotFound::new);
     }
 
+    @Transactional
     public void edit(Long id, MemberEdit edit) {
-        System.out.println("edit = " + edit.getUserId());
         Member member = memberRepository.findById(id)
                 .orElseThrow(PostNotFound::new);
 

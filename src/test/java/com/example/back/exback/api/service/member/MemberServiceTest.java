@@ -142,6 +142,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("회원의 아이디 값과 핸드폰 번호 수정")
     void memberEdit() {
         // given
         Member member = Member.builder()
@@ -164,7 +165,7 @@ class MemberServiceTest {
                 .userId("memberB")
                 .userPw("1234")
                 .age(24)
-                .phone("01022223333")
+                .phone("01099901123")
                 .gender('M')
                 .build();
 
@@ -172,7 +173,7 @@ class MemberServiceTest {
 
         // then
         assertThat(member.getUserId()).isEqualTo("memberB");
-        assertThat(member.getPhone()).isEqualTo("01022223333");
+        assertThat(member.getPhone()).isEqualTo("01099901123");
     }
 
 }
