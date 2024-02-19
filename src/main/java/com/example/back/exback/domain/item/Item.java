@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,33 +25,32 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-    @ManyToMany(mappedBy = "item")
-    private List<ItemCategory> itemCategories = new ArrayList<>();
+//    @ManyToMany(mappedBy = "item")
+//    private List<ItemCategory> itemCategories = new ArrayList<>();
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
+
+    @Enumerated(EnumType.STRING)
+    private ItemSellingStatus sellingStatus;
+
+    private String itemName;
     private String itemDescription;
     private int price;
     private int sale;
-    private LocalDateTime regDt;
-    private int quantity;
+    private int stockQuantity;
 
     @Column(columnDefinition = "char default 'N'")
     private char deleted;
 
-    public Item(String name, String itemDescription, int price, int sale, int quantity, LocalDateTime regDt, Category... categories) {
-        this.name = name;
+    @Builder
+    public Item(ItemType type, ItemSellingStatus sellingStatus, String itemName, String itemDescription, int price, int sale, int stockQuantity, Category... categories) {
+        this.type = type;
+        this.sellingStatus = sellingStatus;
+        this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.price = price;
         this.sale = sale;
-        this.quantity = quantity;
-        this.regDt = regDt;
-        for (Category category : categories) {
-            this.itemCategories.add(new ItemCategory(this, category));
-        }
-    }
-
-    public void relationshipSetCategories(ItemCategory itemCategory) {
-        this.itemCategories.add(itemCategory);
-        itemCategory.relationshipSetItem(this);
+        this.stockQuantity = stockQuantity;
     }
 }

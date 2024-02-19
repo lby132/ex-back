@@ -43,8 +43,6 @@ public class Order extends BaseEntity {
 
     private int totalPrice;
     private LocalDateTime orderDate;
-    private int itemCnt;
-    private String itemName;
 
     @Builder
     public Order(Member member, List<Item> items, OrderStatus orderStatus, LocalDateTime orderDate) {
@@ -56,11 +54,6 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
         this.totalPrice = calculatorTotalPrice(items);
         this.orderDate = orderDate;
-    }
-
-    public void relationshipSetOrderItems(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
-        orderItem.relationshipSetOrder(this);
     }
 
     private int calculatorTotalPrice(List<Item> items) {
@@ -76,5 +69,16 @@ public class Order extends BaseEntity {
                 .items(items)
                 .orderDate(LocalDateTime.now())
                 .build();
+    }
+
+    public void cancel() {
+        if (getOrderStatus() == OrderStatus.COMPLETED) {
+            throw new IllegalStateException("배송완료된 상품은 취소가 불가능합니다.");
+        }
+        changeOrderStatus(OrderStatus.CANCELED);
+    }
+
+    public void changeOrderStatus(OrderStatus status) {
+        this.orderStatus = status;
     }
 }

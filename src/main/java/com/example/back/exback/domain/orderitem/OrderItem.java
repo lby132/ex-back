@@ -3,6 +3,7 @@ package com.example.back.exback.domain.orderitem;
 import com.example.back.exback.domain.item.Item;
 import com.example.back.exback.domain.order.Order;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.aspectj.weaver.ast.Or;
@@ -29,16 +30,8 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int price;
-
-    private int cnt;
-
     public OrderItem(Order order, Item item) {
         this.order = order;
         this.item = item;
-    }
-
-    public void relationshipSetOrder(Order order) {
-        this.order = order;
     }
 }

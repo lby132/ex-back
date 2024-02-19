@@ -11,6 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ItemCategory extends BaseEntity {
 
     @Id
@@ -26,6 +27,7 @@ public class ItemCategory extends BaseEntity {
     @JoinColumn(name = "item_id")
     public Category category;
 
+    @Builder
     public ItemCategory(Item item, Category category) {
         this.item = item;
         this.category = category;
