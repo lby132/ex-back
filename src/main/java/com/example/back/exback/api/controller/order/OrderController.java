@@ -17,7 +17,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/v1/order/create")
+    @PostMapping("/v1/order/new")
     public ApiResponse<OrderResponse> createOrder(@RequestBody OrderRequest request) {
         return ApiResponse.ok(orderService.createOrder(request));
     }

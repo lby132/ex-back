@@ -36,7 +36,6 @@ public class ItemResponse {
                 .sellingStatus(item.getSellingStatus())
                 .price(item.getPrice())
                 .sale(item.getSale())
-                .stockQuantity(item.getStockQuantity())
                 .build();
     }
 }

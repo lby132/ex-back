@@ -2,7 +2,6 @@ package com.example.back.exback.domain.item;
 
 import com.example.back.exback.domain.BaseEntity;
 import com.example.back.exback.domain.category.Category;
-import com.example.back.exback.domain.itemcategory.ItemCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,19 +37,17 @@ public class Item extends BaseEntity {
     private String itemDescription;
     private int price;
     private int sale;
-    private int stockQuantity;
 
     @Column(columnDefinition = "char default 'N'")
     private char deleted;
 
     @Builder
-    public Item(ItemType type, ItemSellingStatus sellingStatus, String itemName, String itemDescription, int price, int sale, int stockQuantity, Category... categories) {
+    public Item(ItemType type, ItemSellingStatus sellingStatus, String itemName, String itemDescription, int price, int sale) {
         this.type = type;
         this.sellingStatus = sellingStatus;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.price = price;
         this.sale = sale;
-        this.stockQuantity = stockQuantity;
     }
 }

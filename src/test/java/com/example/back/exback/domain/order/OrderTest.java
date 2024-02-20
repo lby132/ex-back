@@ -2,6 +2,7 @@ package com.example.back.exback.domain.order;
 
 import com.example.back.exback.domain.address.Address;
 import com.example.back.exback.domain.item.Item;
+import com.example.back.exback.domain.item.ItemType;
 import com.example.back.exback.domain.member.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,8 @@ class OrderTest {
     void createOrderTest() {
         // given
         List<Item> itemList = List.of(
-                createItem("티셔츠", "면100%", 10000, 0, 5),
-                createItem("패딩", "거위털100%", 100000, 0, 5)
+                createItem(TOP, "티셔츠", "면100%", 10000, 0, 5),
+                createItem(TOP,"패딩", "거위털100%", 100000, 0, 5)
         );
 
         // when
@@ -37,8 +38,8 @@ class OrderTest {
     void orderStatus() {
         // given
         List<Item> itemList = List.of(
-                createItem("티셔츠", "면100%", 10000, 0, 5),
-                createItem("패딩", "거위털100%", 100000, 0, 2)
+                createItem(TOP,"티셔츠", "면100%", 10000, 0, 5),
+                createItem(TOP,"패딩", "거위털100%", 100000, 0, 2)
         );
 
         // when
@@ -60,16 +61,15 @@ class OrderTest {
                 .build();
     }
 
-    private Item createItem(String name, String itemDescription, int price, int sale, int quantity) {
+    private Item createItem(ItemType type, String name, String itemDescription, int price, int sale, int quantity) {
 
         return Item.builder()
-                .type(TOP)
+                .type(type)
                 .sellingStatus(SELLING)
                 .itemName(name)
                 .itemDescription(itemDescription)
                 .price(price)
                 .sale(sale)
-                .stockQuantity(quantity)
                 .build();
     }
 }
