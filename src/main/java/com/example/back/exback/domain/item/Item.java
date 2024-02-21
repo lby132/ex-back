@@ -24,9 +24,6 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-//    @ManyToMany(mappedBy = "item")
-//    private List<ItemCategory> itemCategories = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private ItemType type;
 

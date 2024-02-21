@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
 
@@ -32,6 +32,7 @@ public class OrderService {
     private final StockRepository stockRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public OrderResponse createOrder(OrderRequest request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(PostNotFound::new);

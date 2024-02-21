@@ -1,16 +1,12 @@
 package com.example.back.exback.api;
 
-import com.example.back.exback.api.ApiResponse;
 import com.example.back.exback.api.exception.ApiException;
-import com.example.back.exback.api.exception.PostNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionController {
