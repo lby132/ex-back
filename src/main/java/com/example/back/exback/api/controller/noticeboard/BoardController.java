@@ -22,6 +22,7 @@ public class BoardController {
 
     @GetMapping("/v1/board/list")
     public ApiResponse<List<BoardResponse>> boardList() {
+        log.info("BoardController.boardList");
         return ApiResponse.ok(boardService.getBoardAll());
     }
 
